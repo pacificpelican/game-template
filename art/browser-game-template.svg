@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="180" viewBox="0 0 720 180" role="img" aria-labelledby="title description">
+  <title id="title">Browser Game Template</title>
+  <desc id="description">A browser window framing a colorful pixel landscape, beside the words Browser Game Template.</desc>
+  <rect width="720" height="180" rx="24" fill="#172033"/>
+  <g transform="translate(30 34)">
+    <rect width="168" height="112" rx="14" fill="#26334b" stroke="#71809a" stroke-width="2"/>
+    <path d="M2 32h164" stroke="#71809a" stroke-width="2"/>
+    <circle cx="18" cy="17" r="4" fill="#ff7a70"/>
+    <circle cx="32" cy="17" r="4" fill="#ffd166"/>
+    <circle cx="46" cy="17" r="4" fill="#70d6a5"/>
+    <path d="M16 83 48 53l24 21 24-17 56 48H16z" fill="#8a78e8"/>
+    <path d="M16 93 47 70l27 18 23-19 55 38H16z" fill="#55c6a5"/>
+    <path d="M16 101h136" stroke="#b6f0ca" stroke-width="4" stroke-linecap="round"/>
+    <path d="m125 45 4 8 9 1-7 6 2 9-8-5-8 5 2-9-7-6 9-1z" fill="#ffd166"/>
+  </g>
+  <g fill="#f4f6fb" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+    <text x="238" y="83" font-size="35" font-weight="700" letter-spacing="1.4">BROWSER GAME</text>
+    <text x="240" y="125" fill="#aebbd2" font-size="23" font-weight="600" letter-spacing="7">TEMPLATE</text>
+  </g>
+</svg>
