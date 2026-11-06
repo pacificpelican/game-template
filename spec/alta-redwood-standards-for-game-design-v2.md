@@ -1,4 +1,4 @@
-# Alta Redwood Standards for Game Design (First Edition)
+# Alta Redwood Standards for Game Design (Second Edition)
 
 The Alta Redwood game engine specification—developed by **Daniel McKeown** across titles such as *Coffee Craft*, *Coyote Pack*, and *Dog Walker Pro*—establishes an authoritative framework for open-world, browser-based urban simulation games. Designed for seamless execution on both desktop web and mobile web viewports, this document outlines mandatory standards for system architecture, on-screen controller layouts, menu navigation, screenshot/PDF export pipelines, smartphone settings interfaces, visual art directives, and account management protocols.
 
@@ -15,11 +15,12 @@ The Alta Redwood architecture prioritizes local-first performance, zero-configur
 |                    ALTA REDWOOD TECHNICAL STACK                       |
 +-----------------------------------------------------------------------+
 |  Frontend: HTML5 / JS Canvas (Desktop & Mobile Web)                   |
-|  Backend Environment: PHP Engine                                      |
+|  Backend Environment: PHP Engine (preferred; static-host capable)     |
 +-----------------------------------------------------------------------+
 |  Persistence Layer:                                                   |
 |    - Default: Local File-Based / SQLite (Zero-Config Local Play)      |
 |    - Production: MySQL / MariaDB (Configured via config.php)          |
+|    - No-PHP Fallback: Browser localStorage / IndexedDB               |
 +-----------------------------------------------------------------------+
 |  AI NPC Engine (Configurable via config.php):                         |
 |    - Tier 1: Local Ollama API Server                                  |
@@ -29,11 +30,24 @@ The Alta Redwood architecture prioritizes local-first performance, zero-configur
 ```
 
 ### Backend Stack & Dual-Tier Data Persistence
-All server-side operations rely on a **PHP** environment. To ensure high accessibility across both local development environments and production web deployments, the persistence layer utilizes a dual-tier storage driver:
+All server-side operations rely on a **PHP** environment when one is available (see *Static-Host Deployability* below for the no-PHP case). To ensure high accessibility across both local development environments and production web deployments, the persistence layer utilizes a dual-tier storage driver:
 
 *   **Default Local File Storage**: Out of the box, games utilize local file-based text storage (such as **SQLite** or structured flat-file stores). This guarantees zero-configuration local play without requiring an external database server daemon.
 *   **SQL Database Driver**: When deployed to web servers or scalable database environments, data operations can be directed to a **MySQL or MariaDB** database by configuring connection string parameters in `config.php`.
 *   **Deployment Configuration Pattern**: Developers must utilize the `config.local.php` configuration pattern, where deployment-specific environment overrides are stored in a file excluded from git repositories (`.gitignore`) to avoid exposing credentials.
+
+### Static-Host Deployability & Front-End Persistence Fallback
+**PHP is the preferred pattern for data persistence**, but unless there is a compelling reason otherwise, every game should also be deployable to a plain static host (no PHP). In practice this may mean serving an `index.html` rather than an `index.php` at the document root. Innovative setups are not constrained; this is a default, not a mandate.
+
+*   **Detect, Don't Assume**: At startup the game probes for PHP availability and adapts. If PHP is absent, persistence falls back to front-end web storage techniques (`localStorage`, `IndexedDB`), and server-only features (cross-device accounts, server-side AI calls) degrade gracefully to local or fallback behavior without breaking gameplay.
+*   **Honest Debug Reporting**: The Debug Panel (Section 5) must reflect the lack of PHP and the storage driver actually in use.
+*   **Optional Session Storage Tip (recommended pattern)**: PHP's default session store can get jammed, especially on shared cPanel hosts, so try custom writable locations *before* the host default. The reference implementation is `start_session_with_fallback()` in [djmblog `post/connect.php`](https://github.com/pacificpelican/djmblog/blob/main/post/connect.php):
+    1.  Return early if a session is already active; set cookie params (`path=/`, `secure` when on HTTPS, `httponly`, `samesite=Lax`).
+    2.  Try candidate directories in order, creating each with mode `0700` if missing: (a) `tmp_sessions` above the web root (preferred); (b) a local `.sessions` folder inside the project, protected by an auto-written `.htaccess` that denies all access; (c) a game-named folder under `sys_get_temp_dir()`.
+    3.  For the first directory that is writable, call `session_save_path($dir)` then `session_start()`; move on to the next candidate if that fails.
+    4.  Last resort: reset `session_save_path('')` and use PHP's configured default; log an error if no session can start.
+
+    Games may additionally prefer client-side session state (browser storage) ahead of any PHP session when PHP is unavailable or for non-sensitive state.
 
 ### Tiered AI Integration Framework
 Alta Redwood titles incorporate dynamic NPC dialogue generation, animal behavioral modeling, automated banking decisions, and TOWS strategic threat identification. The backend manages AI connectivity through a three-tiered fallback hierarchy configured in `config.php`:
@@ -128,7 +142,9 @@ The smartphone interface uses a tabbed navigation bar containing seven standardi
 3.  **Save / Load Tab**: Allows manual committing of current game state or loading previous save files for authenticated users.
 4.  **Controls Tab**: Displays an interactive key explaining the on-screen controller mapping and physical keyboard shortcuts.
 5.  **Debug Panel**: Displays real-time system indicators:
-    *   **Active Storage Driver**: Explicitly flags `Local (SQLite/JSON)` vs `SQL (MySQL/MariaDB)`.
+    *   **PHP Status**: Flags `PHP Available` or `PHP Unavailable (static host)`, detected at runtime (e.g., a failed or non-JSON response from a lightweight PHP probe endpoint).
+    *   **Active Storage Driver**: Explicitly flags `Local (SQLite/JSON)`, `SQL`, or `Browser (localStorage/IndexedDB)`. When the driver is SQL, keep it terse: show only the DB type (e.g., `SQL (MySQL)`), with no connection details or extra verbosity.
+    *   **Session Storage**: Flags where the session is currently held (`Browser`, `PHP Session`, or `None`).
     *   **AI API Connection**: Flags `Ollama (Local)`, `Cloud Provider`, or `Fallback Mode`.
 6.  **Credits Tab**: Displays the game title, logo, and credits linking to [Daniel McKeown](https://altaredwood.work).
 7.  **Legal Tab (Terms & Privacy)**: Contains full Terms of Service and Privacy Policy documentation.
@@ -179,4 +195,4 @@ Every Alta Redwood game must include an unrecoverable **Account Deletion** featu
 
 ---
 
-*This document serves as the official First Edition specification for game development at Alta Redwood. For technical updates and portfolio inquiries, visit [Alta Redwood](https://altaredwood.work).*
+*This document serves as the official Second Edition specification for game development at Alta Redwood. For technical updates and portfolio inquiries, visit [Alta Redwood](https://altaredwood.work).*
