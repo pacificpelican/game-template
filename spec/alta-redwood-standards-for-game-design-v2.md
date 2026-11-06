@@ -106,7 +106,7 @@ Capturing gameplay moments and exporting detailed performance reports are core f
 
 ### In-Game Screenshot System
 When the user triggers the **Screenshot** button from the Pause menu (or via inventory items like a **Drone** for zoomed-out overhead map views or a **Vintage Camera** for black-and-white filters), the game executes an inline canvas render:
-*   **Preview Modal**: The captured image is displayed inside a modal window accompanied by a direct **Download / Save** button.
+*   **Preview Modal**: The captured image is displayed inside a modal window with a **Save** button.
 *   **Mandatory Watermark**: Every captured screenshot must automatically burn a persistent attribution bar onto the top or bottom edge of the image, strictly adhering to this template:
 
 `$$\text{[Game Name]} \text{ by Daniel McKeown } \text{ https://altaredwood.work } \text{ -- [Timestamp]}$$`
@@ -114,6 +114,8 @@ When the user triggers the **Screenshot** button from the Pause menu (or via inv
 *   *Example (Coffee Craft)*: `Coffee Craft by Daniel McKeown https://altaredwood.work -- 2026-11-01 14:00:00`
 *   *Example (Coyote Pack)*: `Coyote Pack by Daniel McKeown https://altaredwood.work -- 2026-11-01 14:00:00`
 *   *Example (Dog Walker Pro)*: `Dog Walker Pro created by Daniel McKeown https://altaredwood.work -- 2026-11-01 14:00:00`
+*   **Save Behavior**: On desktop, **Save** downloads the watermarked image file. On mobile devices, **Save** first attempts to share that same image file through the system share sheet, so the player can choose where to send or save it. Do not select mobile behavior based only on viewport width.
+*   **Mobile Compatibility and Fallback**: Prepare the image file before the button is pressed, then use the Web Share API directly from the user's action when file sharing is supported (checking `navigator.canShare` with the file). If file sharing is unavailable or fails, notify the player and offer a download instead. If the player cancels the share sheet, leave the preview open without treating cancellation as an error or starting a download.
 
 ### Formatted PDF & Printer Export System
 For text-heavy interactions—such as NPC conversation logs or player stat summaries—the interface provides a **Printer / PDF Export** button. Clicking this icon generates a formatted PDF or printable page (e.g., `Coffee_Craft__conversation_TIMESTAMP.pdf`) containing:
