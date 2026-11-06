@@ -1,6 +1,6 @@
 # Alta Redwood Standards for Game Design (Second Edition)
 
-The Alta Redwood game engine specification—developed by **Daniel McKeown** across titles such as *Coffee Craft*, *Coyote Pack*, and *Dog Walker Pro*—establishes an authoritative framework for open-world, browser-based urban simulation games. Designed for seamless execution on both desktop web and mobile web viewports, this document outlines mandatory standards for system architecture, on-screen controller layouts, menu navigation, screenshot/PDF export pipelines, smartphone settings interfaces, visual art directives, and account management protocols.
+The Alta Redwood game engine specification—developed by **Daniel McKeown** across titles such as [*Coffee Craft*](https://github.com/pacificpelican/coffee-craft), [*Coyote Pack*](https://github.com/pacificpelican/coyote-pack), and [*Dog Walker Pro*](https://github.com/pacificpelican/dog-walker-pro)—establishes an authoritative framework for open-world, browser-based urban simulation games. Designed for seamless execution on both desktop web and mobile web viewports, this document outlines mandatory standards for system architecture, on-screen controller layouts, menu navigation, screenshot/PDF export pipelines, smartphone settings interfaces, visual art directives, and account management protocols.
 
 All Alta Redwood projects must link back to official studio resources at [Alta Redwood](https://altaredwood.work).
 
@@ -109,7 +109,7 @@ When the user triggers the **Screenshot** button from the Pause menu (or via inv
 *   **Preview Modal**: The captured image is displayed inside a modal window accompanied by a direct **Download / Save** button.
 *   **Mandatory Watermark**: Every captured screenshot must automatically burn a persistent attribution bar onto the top or bottom edge of the image, strictly adhering to this template:
 
-$$\text{[Game Name]} \text{ by Daniel McKeown } \text{ https://altaredwood.work } \text{ -- [Timestamp]}$$
+`$$\text{[Game Name]} \text{ by Daniel McKeown } \text{ https://altaredwood.work } \text{ -- [Timestamp]}$$`
 
 *   *Example (Coffee Craft)*: `Coffee Craft by Daniel McKeown https://altaredwood.work -- 2026-11-01 14:00:00`
 *   *Example (Coyote Pack)*: `Coyote Pack by Daniel McKeown https://altaredwood.work -- 2026-11-01 14:00:00`
