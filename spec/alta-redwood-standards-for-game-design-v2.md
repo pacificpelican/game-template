@@ -127,14 +127,14 @@ For text-heavy interactions—such as NPC conversation logs or player stat summa
 
 The Settings page is styled as an in-game **smartphone interface** that slides up from the edge of the viewport. It is accessible either via the Pause menu or through a dedicated smartphone icon in the top utility bar.
 
-The smartphone interface uses a tabbed navigation bar containing seven standardized modules:
+The smartphone interface uses a tabbed navigation bar containing eight standardized modules:
 
 ```
-+-----------------------------------------------------------------------+
-|                         SMARTPHONE SETTINGS                           |
-+---------+---------+-----------+----------+-------+---------+----------+
-| Account |  Stats  | Save/Load | Controls | Debug | Credits | Legal    |
-+---------+---------+-----------+----------+-------+---------+----------+
++-------------------------------------------------------------------------------------+
+|                              SMARTPHONE SETTINGS                                    |
++---------+---------+-----------+----------+-------+---------+-------+---------------+
+| Account |  Stats  | Save/Load | Controls | Debug | Credits | Terms | Privacy Policy |
++---------+---------+-----------+----------+-------+---------+-------+---------------+
 ```
 
 1.  **Account Tab**: Manages user registration, login, logout, and permanent account/data deletion.
@@ -147,7 +147,8 @@ The smartphone interface uses a tabbed navigation bar containing seven standardi
     *   **Session Storage**: Flags where the session is currently held (`Browser`, `PHP Session`, or `None`).
     *   **AI API Connection**: Flags `Ollama (Local)`, `Cloud Provider`, or `Fallback Mode`.
 6.  **Credits Tab**: Displays the game title, logo, and credits linking to [Daniel McKeown](https://altaredwood.work).
-7.  **Legal Tab (Terms & Privacy)**: Contains full Terms of Service and Privacy Policy documentation.
+7.  **Terms Tab**: Contains the full Terms of Service and displays a `Last updated: [date]` notice.
+8.  **Privacy Policy Tab**: Contains the full Privacy Policy and displays a `Last updated: [date]` notice.
 
 ---
 
